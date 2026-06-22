@@ -34,7 +34,8 @@ var generateCmd = &cobra.Command{
 	Long: `Generate an AI image from a text prompt.
 
 Supported providers: openai, openrouter, stability, replicate, ideogram,
-deepai, getimg, clipdrop, segmind, and any OpenAI-compatible endpoint.
+deepai, getimg, clipdrop, segmind, zhipu, baidu, doubao, dashscope,
+and any OpenAI-compatible endpoint.
 The prompt can be provided as a positional argument or via the --prompt flag.
 The generated image is displayed in the terminal (if supported) and saved to disk.`,
 	Args: cobra.MaximumNArgs(1),

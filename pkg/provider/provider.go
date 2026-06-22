@@ -45,12 +45,20 @@ func New(name, apiKey, baseURL string) (Provider, error) {
 		return NewClipdropProvider(apiKey, baseURL), nil
 	case "segmind":
 		return NewSegmindProvider(apiKey, baseURL), nil
+	case "zhipu":
+		return NewZhipuProvider(apiKey, baseURL), nil
+	case "baidu":
+		return NewBaiduProvider(apiKey, baseURL), nil
+	case "doubao":
+		return NewDoubaoProvider(apiKey, baseURL), nil
+	case "dashscope":
+		return NewDashScopeProvider(apiKey, baseURL), nil
 	default:
 		if baseURL != "" {
 			return NewOpenAIProvider(apiKey, baseURL), nil
 		}
 		return nil, fmt.Errorf(
-			"unknown provider: %s (supported: openai, openrouter, stability, replicate, ideogram, deepai, getimg, clipdrop, segmind)",
+			"unknown provider: %s (supported: openai, openrouter, stability, replicate, ideogram, deepai, getimg, clipdrop, segmind, zhipu, baidu, doubao, dashscope)",
 			name,
 		)
 	}

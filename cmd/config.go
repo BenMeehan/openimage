@@ -23,7 +23,7 @@ var configSetCmd = &cobra.Command{
 Available keys:
   api-key    API key
   api-base   API base URL (overrides provider default)
-  provider   API provider: openai, openrouter, stability, replicate, ideogram, deepai, getimg, clipdrop, segmind
+  provider   API provider: openai, openrouter, stability, replicate, ideogram, deepai, getimg, clipdrop, segmind, zhipu, baidu, doubao, dashscope
   model      Model ID (e.g. openai/dall-e-3, sd3, black-forest-labs/flux-schnell, seedream-5-lite)
   size       Default image size (e.g. 1024x1024)
   quality    Quality or speed tier (provider-specific)
