@@ -1,0 +1,21 @@
+# Binary
+openimage
+
+# Config with secrets
+openimage.yaml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Go
+*.exe
+*.test
+*.out
+vendor/
