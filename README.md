@@ -1,8 +1,6 @@
-# openimage
+# Openimage
 
-Generate AI images from your terminal.
-
-openimage is a command-line tool for generating images through AI image
+Openimage is a command-line tool for generating images through AI image
 generation APIs. It supports thirteen providers — OpenAI, OpenRouter, Stability
 AI, Replicate, Ideogram, DeepAI, GetImg.ai, Clipdrop, Segmind, Zhipu, Baidu,
 ByteDance, and Alibaba — as well as any OpenAI-compatible endpoint.
