@@ -5,15 +5,15 @@ generation APIs. It supports thirteen providers — OpenAI, OpenRouter, Stabilit
 AI, Replicate, Ideogram, DeepAI, GetImg.ai, Clipdrop, Segmind, Zhipu, Baidu,
 ByteDance, and Alibaba — as well as any OpenAI-compatible endpoint.
 
-Given a text prompt and a provider, openimage constructs the appropriate API
-request, authenticates with your credentials, downloads the resulting image,
-saves it to disk, and renders it inline in the terminal using native graphics
-protocols where supported. Batch generation, a local YAML configuration file,
-and per-invocation overrides for every parameter are included.
+It can enhance prompts with an LLM before generation and supports interactive
+iterative refinement where you provide feedback and the tool regenerates with
+an improved prompt.
 
-The tool is designed to be scriptable and composable. It brings image
-generation into terminal workflows without requiring a browser, a GUI, or
-manual interaction with any provider's web dashboard.
+openimage constructs the appropriate API request for the chosen provider,
+authenticates with your credentials, downloads the resulting image, saves it
+to disk, and renders it inline in the terminal using native graphics protocols
+where supported. All parameters are configurable via a YAML file or
+per-invocation flags.
 
 ---
 
@@ -38,6 +38,18 @@ go build -o openimage .
 ```bash
 openimage config set api-key sk-or-...
 openimage generate "a watercolor painting of mountains at sunset"
+```
+
+To automatically improve your prompt before generation:
+
+```bash
+openimage generate "a cat" --enhance
+```
+
+To generate, review, and refine interactively:
+
+```bash
+openimage generate "a fantasy landscape" --iterate
 ```
 
 ---
@@ -119,6 +131,8 @@ openimage generate "prompt" --provider openai --api-base https://api.together.ai
 | `--style` | | Style preset |
 | `--output` | `-o` | Output file path |
 | `--count` | `-n` | Number of images (default 1) |
+| `--enhance` | | Improve prompt with an LLM before generation |
+| `--iterate` | `-i` | Interactive generation with feedback and refinement |
 | `--api-base` | | Override API base URL |
 | `--api-key` | | Override API key |
 | `--open` | | Open result with system viewer |
