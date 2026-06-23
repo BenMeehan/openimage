@@ -174,7 +174,7 @@ func runBatch(p provider.Provider, prompt, model, size, quality, style string) e
 		fmt.Fprintf(os.Stderr, "Saved: %s (%d bytes)\n", outPath, len(img.Data))
 
 		if cfg.Display {
-			display.ShowImage(img.Data, outPath)
+			display.ShowImage(img.Data)
 		}
 
 		if openFile {
@@ -229,7 +229,7 @@ func runIterate(p provider.Provider, enh *enhancer.Enhancer, initialPrompt, mode
 		fmt.Fprintf(os.Stderr, "Saved: %s (%d bytes)\n", outPath, len(img.Data))
 
 		if cfg.Display {
-			display.ShowImage(img.Data, outPath)
+			display.ShowImage(img.Data)
 		}
 
 		if openFile {

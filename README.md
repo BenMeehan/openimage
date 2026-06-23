@@ -1,19 +1,18 @@
 # Openimage
 
-Openimage is a command-line tool for generating images through AI image
-generation APIs. It supports thirteen providers — OpenAI, OpenRouter, Stability
-AI, Replicate, Ideogram, DeepAI, GetImg.ai, Clipdrop, Segmind, Zhipu, Baidu,
-ByteDance, and Alibaba — as well as any OpenAI-compatible endpoint.
+Openimage is a terminal UI for generating AI images. Run it with no arguments
+to open the interactive TUI — type a prompt, watch a live progress bar, and
+see your image rendered inline. It also supports a CLI `generate` subcommand
+for scripting and one-liners.
 
-It can enhance prompts with an LLM before generation and supports interactive
-iterative refinement where you provide feedback and the tool regenerates with
-an improved prompt.
+It supports thirteen providers — OpenAI, OpenRouter, Stability AI, Replicate,
+Ideogram, DeepAI, GetImg.ai, Clipdrop, Segmind, Zhipu, Baidu, ByteDance, and
+Alibaba — as well as any OpenAI-compatible endpoint.
 
 openimage constructs the appropriate API request for the chosen provider,
 authenticates with your credentials, downloads the resulting image, saves it
-to disk, and renders it inline in the terminal using native graphics protocols
-where supported. All parameters are configurable via a YAML file or
-per-invocation flags.
+to disk, and renders it inline in the terminal. All parameters are
+configurable via a YAML file or per-invocation flags.
 
 ---
 
@@ -37,78 +36,52 @@ go build -o openimage .
 
 ```bash
 openimage config set api-key sk-or-...
+openimage
+```
+
+That opens the TUI. Type a prompt and press enter. The image generates with a
+live progress bar and renders inline.
+
+For CLI usage:
+
+```bash
 openimage generate "a watercolor painting of mountains at sunset"
-```
-
-To automatically improve your prompt before generation:
-
-```bash
 openimage generate "a cat" --enhance
-```
-
-To generate, review, and refine interactively:
-
-```bash
 openimage generate "a fantasy landscape" --iterate
 ```
 
 ---
 
-## Configuration
+## Terminal UI
 
-openimage reads `openimage.yaml` from the current working directory. Every
-config value can be overridden by a command-line flag.
-
-```yaml
-api_key: sk-or-v1-abc123
-provider: openrouter
-model: openai/dall-e-3
-size: 1024x1024
-quality: standard
-style: vivid
-save_dir: ~/Pictures/openimage
-display: true
-```
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `api_key` | string | — | API key |
-| `api_base` | string | — | Override the default API base URL |
-| `provider` | string | `openrouter` | Provider name |
-| `model` | string | `openai/dall-e-3` | Model ID |
-| `size` | string | `1024x1024` | Image dimensions |
-| `quality` | string | `standard` | Quality or speed tier |
-| `style` | string | `vivid` | Style preset |
-| `save_dir` | string | `.` | Output directory (supports `~`) |
-| `display` | bool | `true` | Show images in the terminal |
-
-Manage config with subcommands:
+Running `openimage` with no arguments launches a full-screen interactive TUI:
 
 ```
-openimage config set <key> <value>
-openimage config get <key>
-openimage config list
-openimage config path
+┌─────────────────────────────────────────────────────┐
+│                   ✧  openimage                      │
+│                                                     │
+│  describe the image you want to generate             │
+│  ┌───────────────────────────────────────────────┐   │
+│  │ > a cinematic portrait of a robot reading...  │   │
+│  └───────────────────────────────────────────────┘   │
+│                                                     │
+│           enter  generate    ctrl+c  quit            │
+└─────────────────────────────────────────────────────┘
 ```
 
-### API key
+Features:
+- **Live progress bar** with gradient animation while generating
+- **Inline image rendering** using Kitty, iTerm2, Sixel, or braille protocols
+- **Dark theme** with accent colors and rounded borders
+- Keyboard-driven: `enter` to generate, `ctrl+c` / `q` to quit
 
-Resolved in this order:
+After generation, press `enter` to start a new prompt.
 
-1. `--api-key` flag
-2. `OPENIMAGE_API_KEY` env var
-3. `OPENROUTER_API_KEY` env var (compatible with the OpenRouter CLI)
-4. `api_key` in `openimage.yaml`
-
----
-
-## Usage
+## CLI Usage
 
 ```
 openimage generate <prompt> [flags]
 ```
-
-The prompt is required. Give it as a positional argument or with `-p`.
 
 ```bash
 openimage generate "a robot reading a book"
@@ -138,7 +111,53 @@ openimage generate "prompt" --provider openai --api-base https://api.together.ai
 | `--open` | | Open result with system viewer |
 
 When `--output` is omitted, files are saved to `save_dir` with a timestamp:
-`openimage-20260123-143052.png`. With `-n`, an index is appended.
+`openimage-20260123-143052.png`.
+
+---
+
+## Configuration
+
+openimage reads `openimage.yaml` from the current working directory. Every
+config value can be overridden by a command-line flag.
+
+```yaml
+api_key: sk-or-v1-abc123
+provider: openrouter
+model: openai/dall-e-3
+size: 1024x1024
+save_dir: ~/Pictures/openimage
+display: true
+```
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `api_key` | string | — | API key |
+| `api_base` | string | — | Override the default API base URL |
+| `provider` | string | `openrouter` | Provider name |
+| `model` | string | `openai/dall-e-3` | Model ID |
+| `size` | string | `1024x1024` | Image dimensions |
+| `quality` | string | — | Quality or speed tier (provider-specific) |
+| `style` | string | — | Style preset (provider-specific) |
+| `save_dir` | string | `.` | Output directory (supports `~`) |
+| `display` | bool | `true` | Show images in the terminal |
+
+Manage config with subcommands:
+
+```
+openimage config set <key> <value>
+openimage config get <key>
+openimage config list
+openimage config path
+```
+
+### API key
+
+Resolved in this order:
+
+1. `--api-key` flag
+2. `OPENIMAGE_API_KEY` env var
+3. `OPENROUTER_API_KEY` env var (compatible with the OpenRouter CLI)
+4. `api_key` in `openimage.yaml`
 
 ---
 
@@ -219,9 +238,20 @@ ones. For each provider's full catalog, see the docs linked above.
 
 ## Terminal display
 
-Inline display on iTerm2 (OSC 1337), Kitty (graphics protocol), and WezTerm
-(iTerm2 protocol). Falls back to [chafa](https://github.com/hpjansson/chafa)
-on other terminals. Disable with `openimage config set display false`.
+openimage renders generated images directly in your terminal using the best
+available protocol, detected at runtime:
+
+| Protocol | Terminals |
+|----------|-----------|
+| **Kitty** | Kitty |
+| **iTerm2** | iTerm2, WezTerm, VS Code |
+| **Sixel** | xterm, foot, contour, tmux (with sixel enabled) |
+| **Braille** | All terminals — bash, zsh, etc. (Unicode braille characters) |
+
+The protocol is automatically selected based on your terminal environment
+(`$TERM`, `$TERM_PROGRAM`, `$KITTY_WINDOW_ID`). No configuration needed.
+
+Disable inline display with `openimage config set display false`.
 
 ---
 
@@ -233,19 +263,20 @@ Requires Go 1.22+.
 git clone https://github.com/anomalyco/openimage.git
 cd openimage
 go mod tidy
-go run . generate "test"
+go run .
 go vet ./...
 go build -o openimage .
 ```
 
 ```
-cmd/            CLI commands (cobra)
-  root.go        Root command, global flags, config loading
-  generate.go    generate subcommand
+cmd/
+  root.go        Root command — launches TUI by default
+  generate.go    generate subcommand (CLI)
   config.go      config subcommand
+  tui.go         Terminal UI (bubbletea)
 pkg/
   config/        YAML config read/write
-  display/       Terminal image rendering (iTerm2, Kitty, chafa)
+  display/       Terminal image rendering (Kitty, iTerm2, Sixel, braille)
   provider/      Provider interface and implementations
 main.go          Entry point
 ```

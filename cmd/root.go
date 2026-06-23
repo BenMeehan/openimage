@@ -7,20 +7,45 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/anomalyco/openimage/pkg/config"
+	"github.com/anomalyco/openimage/pkg/provider"
 )
 
 var (
-	cfg     *config.Config
-	apiKey  string
+	cfg    *config.Config
+	apiKey string
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "openimage",
 	Short: "Generate AI images from the terminal",
-	Long: `openimage is a CLI tool for generating images using AI models via OpenRouter.
-Configure your API key and generate images directly from the terminal with
-support for terminal-native image display.`,
-	SilenceUsage: true,
+	Long: `openimage is a CLI tool for generating images using AI models.
+Configure your API key and generate images interactively or via the command line.`,
+	Run: runRoot,
+}
+
+func runRoot(cmd *cobra.Command, args []string) {
+	key := config.ResolveAPIKey(apiKey, cfg)
+	if key == "" {
+		fmt.Fprintln(os.Stderr, "API key required. Set via --api-key, OPENIMAGE_API_KEY, or openimage config set api-key <key>")
+		os.Exit(1)
+	}
+
+	providerName := cfg.Provider
+	if providerName == "" {
+		providerName = "openrouter"
+	}
+	apiBase := cfg.APIBase
+
+	p, err := provider.New(providerName, key, apiBase)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+
+	if err := runTUI(p, key, cfg); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 }
 
 func Execute() {
