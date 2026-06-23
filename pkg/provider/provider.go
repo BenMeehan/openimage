@@ -29,7 +29,11 @@ func New(name, apiKey, baseURL string) (Provider, error) {
 	}
 
 	switch name {
-	case "openai", "openrouter", "openai-compatible":
+	case "openai":
+		return NewOpenAIProvider(apiKey, baseURL), nil
+	case "openrouter":
+		return NewOpenRouterProvider(apiKey, baseURL), nil
+	case "openai-compatible":
 		return NewOpenAIProvider(apiKey, baseURL), nil
 	case "stability":
 		return NewStabilityProvider(apiKey, baseURL), nil

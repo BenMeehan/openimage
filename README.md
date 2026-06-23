@@ -180,6 +180,15 @@ ones. For each provider's full catalog, see the docs linked above.
 | `black-forest-labs/flux-pro` | openrouter, replicate | Flux Pro |
 | `bytedance/seedream-4.0` | openrouter | Seedream 4 via OpenRouter |
 | `ideogram-ai/ideogram-v2` | openrouter | Ideogram v2 via OpenRouter |
+| `google/gemini-2.5-flash-image` | openrouter | Gemini 2.5 Flash, a.k.a. Nano Banana |
+| `google/gemini-3.1-flash-image` | openrouter | Nano Banana 2 — Gemini 3.1 Flash Image |
+| `google/gemini-3-pro-image` | openrouter | Nano Banana Pro — Gemini 3 Pro Image |
+| `google/gemini-3.1-flash-image-preview` | openrouter | Nano Banana 2 (preview) |
+| `google/gemini-3-pro-image-preview` | openrouter | Nano Banana Pro (preview) |
+| `openai/gpt-5-image` | openrouter | GPT-5 + GPT Image 1 |
+| `openai/gpt-5-image-mini` | openrouter | GPT-5 Mini + GPT Image 1 Mini |
+| `openai/gpt-5.4-image-2` | openrouter | GPT-5.4 + GPT Image 2 |
+| `openrouter/auto` | openrouter | Auto-routes to best model |
 | `gpt-image-2` | segmind | GPT-4o image generation |
 | `flux-schnell` | segmind, getimg | Fast Flux |
 | `flux-dev` | segmind | Flux Dev |

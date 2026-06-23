@@ -23,8 +23,6 @@ func DefaultConfig() *Config {
 	return &Config{
 		Model:   "openai/dall-e-3",
 		Size:    "1024x1024",
-		Quality: "standard",
-		Style:   "vivid",
 		SaveDir: "",
 		Display: true,
 	}

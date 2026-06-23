@@ -11,7 +11,6 @@ import (
 )
 
 const defaultOpenAIBaseURL = "https://api.openai.com/v1"
-const defaultOpenRouterBaseURL = "https://openrouter.ai/api/v1"
 
 type OpenAIProvider struct {
 	APIKey  string
@@ -21,7 +20,7 @@ type OpenAIProvider struct {
 
 func NewOpenAIProvider(apiKey, baseURL string) *OpenAIProvider {
 	if baseURL == "" {
-		baseURL = defaultOpenRouterBaseURL
+		baseURL = defaultOpenAIBaseURL
 	}
 	baseURL = trimSlash(baseURL)
 	return &OpenAIProvider{
